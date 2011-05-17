@@ -536,7 +536,11 @@ class Gem::Specification
     code.untaint
 
     begin
-      spec = eval code, binding, file
+      spec = nil
+
+      Deprecate.skip_during do
+        spec = eval code, binding, file
+      end
 
       if Gem::Specification === spec
         spec.loaded_from = file.to_s
